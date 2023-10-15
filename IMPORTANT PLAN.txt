@@ -1,0 +1,21 @@
+1. add to dataset: 7.7
+- close program ---- done
+- print text to notepad   ---done
+- make search on google ---- done
+- activate dialog mode --- tomorrow
+- integrate chat gpt ---done
+- add new web-apps +вк
+- add new programms
+- write code system **** - main purpose 8.7 ---done
+2. add new voice 10.7
+3. add vosk wwd
+4. make new interface
+Flet:
+-add pico func ---done
+-add main func
+-edit interface
+-try to create mac os version
+-try to create android version
+5. try to release message view 11.7
+6. official release 15.7
+
