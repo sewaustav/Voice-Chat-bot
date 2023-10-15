@@ -4,7 +4,7 @@ Picovoice - https://console.picovoice.ai/
 
 Vosk - https://alphacephei.com/vosk/
 
-#*INSTRUCTION*
+*INSTRUCTION*
 
 1.install python
 
