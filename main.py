@@ -27,6 +27,7 @@ def main():
             command = cmd.recognize_command()
             if command:
                 ph = cmd.execute(command)
+                print(ph)
                 say(ph)
                 speak()
             if phrase.lower() == "стоп":

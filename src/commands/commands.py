@@ -1,9 +1,9 @@
 import Levenshtein
 import pymorphy2
 
-from src.commands.command_list import command_list as commands_keywords
+from src.commands.command_list import command_list as commands_keywords, hot_keys_list
 from src.commands.command_list import app_list, browser_list, system_list, app_execute_list
-from src.commands.execute import Browser
+from src.commands.execute import Browser, HotKeyHandler, Assistant
 
 morph = pymorphy2.MorphAnalyzer()
 def normalize(word):
@@ -39,16 +39,27 @@ class Execute:
 
     def execute(self, command):
         commands = list(self.command_list)
+        if len(commands) == 0:
+            return "команда не распознана"
+        print(commands)
         for comm in commands:
-            if comm in app_list:
-                ...
-            elif comm in browser_list:
-                print(commands)
+            if comm in hot_keys_list:
+                print("h")
+                hk = HotKeyHandler(commands)
+                if hk.execute() == 1:
+                    return "Исполнено"
+                else:
+                    return "Команда не распознана"
+            elif comm in system_list or comm in app_list:
+                print("ss")
+                a = Assistant(commands)
+                if a.analyze() == 1:
+                    return "Исполнено"
+                else: return "Команда не распознана"
+            elif comm in browser_list and "вкладка" == comm:
+                print('b')
                 br = Browser(commands)
                 if br.analyze() == 1:
                     return "Исполнено"
                 else: return "Команда не распознана"
-
-            elif comm in system_list:
-                ...
-            else: ...
+            else: return "Команда не распознана"
