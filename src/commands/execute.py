@@ -6,7 +6,7 @@ import subprocess
 from src.commands.command_list import app_execute_list
 from src.commands.hotkeys_config import HOT_KEYS
 
-
+# browser commands
 class BrowserCommand:
     @staticmethod
     def open_new_tab():
@@ -32,13 +32,14 @@ class BrowserCommand:
     def prev_tab():
         pyautogui.hotkey('ctrl', 'shift', 'tab')
 
+
 class Browser(BrowserCommand):
 
     def __init__(self, commands:list):
         self.commands = commands
 
     def analyze(self)->int:
-        if any(key in app_execute_list for key in self.commands):
+        if any(key in app_execute_list for key in self.commands) or "закрытый" in self.commands:
             if "открыть" in self.commands:
                 if "новое" in self.commands:
                     if "вкладка" in self.commands:
@@ -47,16 +48,16 @@ class Browser(BrowserCommand):
                     elif "окно" in self.commands:
                         super().open_new_window()
                         return 1
-                elif "закрытый" in self.commands and "вкладка" in self.commands:
+                elif "закрытый" in self.commands:
                     super().open_closed_tab()
                     return 1
-                elif "следующий" in self.commands and "вкладка" in self.commands:
+                elif "следующий" in self.commands:
                     super().next_tab()
                     return 1
-                elif "предыдущий" in self.commands and "вкладка" in self.commands:
+                elif "предыдущий" in self.commands:
                     super().prev_tab()
                     return 1
-            elif "закрыть" in self.commands and "вкладка" in self.commands:
+            elif "закрытый" in self.commands:
                 super().close_tab()
                 return 1
             else: return 0
@@ -100,7 +101,7 @@ class KeyboardCommand:
     def type_text(text: str):
         pyautogui.write(text)
 
-# --- Основной класс, анализирующий команды ---
+# sys commands + keyboard
 class Assistant(SystemCommand, SoundCommand, KeyboardCommand):
     def __init__(self, commands: list):
         self.commands = [cmd.lower() for cmd in commands]
@@ -152,7 +153,7 @@ class Assistant(SystemCommand, SoundCommand, KeyboardCommand):
 
         return 0
 
-
+# hot keys methods
 class HotKeyHandler:
     def __init__(self, commands: list):
         self.commands = [cmd.lower() for cmd in commands]

@@ -37,29 +37,40 @@ class Execute:
             else: print("команда не распознана")
         return commands
 
-    def execute(self, command):
+    def execute(self, command)->str:
         commands = list(self.command_list)
         if len(commands) == 0:
             return "команда не распознана"
         print(commands)
-        for comm in commands:
-            if comm in hot_keys_list:
-                print("h")
-                hk = HotKeyHandler(commands)
-                if hk.execute() == 1:
-                    return "Исполнено"
-                else:
-                    return "Команда не распознана"
-            elif comm in system_list or comm in app_list:
-                print("ss")
-                a = Assistant(commands)
-                if a.analyze() == 1:
-                    return "Исполнено"
-                else: return "Команда не распознана"
-            elif comm in browser_list and "вкладка" == comm:
-                print('b')
-                br = Browser(commands)
-                if br.analyze() == 1:
-                    return "Исполнено"
-                else: return "Команда не распознана"
+
+
+        # recognize topic of task
+        if any(x in commands for x in ["окно", "вкладка"]):
+            br = Browser(commands)
+            if br.analyze() == 1:
+                return "Исполнено"
             else: return "Команда не распознана"
+
+        elif any(x in commands for x in app_list.keys()) or "звук" in commands:
+            a = Assistant(commands)
+            if a.analyze() == 1:
+                return "Исполнено"
+            else: return "Команда не распознана"
+
+        elif any(x in hot_keys_list for x in commands):
+            hk = HotKeyHandler(commands)
+            if hk.execute() == 1:
+                return "Исполнено"
+            else: return "Команда не распознана"
+
+        # always last elif
+        elif any(x in commands for x in ["закрой", "закрытый"]):
+            hk = HotKeyHandler(commands)
+            if hk.execute() == 1:
+                return "Исполнено"
+            else: return "Команда не распознана"
+
+
+        else:
+            print("Nothing")
+            return "Команда не распознана"
