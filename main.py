@@ -1,3 +1,5 @@
+import time
+
 import vosk
 
 from src.commands.commands import Execute, normalize
@@ -6,6 +8,8 @@ from src.voice.recognize import Recognition
 from src.voice.tokeniztion import tokenization
 from src.voice.wake_up import detect
 from src.voice.speak import speak, say
+from src.voice.answers.voice_response import *
+from src.voice.answers.say_phrase import say_response
 
 model_path = "/home/sewa/Documents/Bedolaga/vosk-model-small-ru-0.22"
 model = vosk.Model(model_path)
@@ -20,21 +24,34 @@ def main():
                 flag = False
                 continue  # Переход обратно к detect()
 
+            if phrase.lower() == "стоп":
+                say("Не уходи, еблан")
+                speak()
+                time.sleep(2)
+                break
+
             # Обработка команды
             print("Команда:", phrase)
             tokens = tokenization(phrase)
             cmd = Execute(tokens)
             command = cmd.recognize_command()
             if command:
-                ph = cmd.execute(command)
-                print(ph)
-                say(ph)
+                if cmd.execute(command) == 1:
+                    say(say_response(default_phrases=voice_success))
+                    speak()
+                else:
+                    say(say_response(default_phrases=voice_no_recognized))
+                    speak()
+            else:
+                say(say_response(default_phrases=voice_no_recognized))
                 speak()
-            if phrase.lower() == "стоп":
-                break
+
         else:
             a = detect()
-            if a: flag = True
+            if a:
+                say(say_response(default_phrases=voice_hello))
+                speak()
+                flag = True
 
 if __name__ == "__main__":
     main()
