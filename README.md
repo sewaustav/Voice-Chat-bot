@@ -117,7 +117,7 @@ python main.py
 
 Интеграция с ChatGPT / DeepSeek / Llama 3 (локально)
 
-
+## MIT LICENCE
 
 
 
