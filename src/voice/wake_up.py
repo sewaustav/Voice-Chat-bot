@@ -3,6 +3,7 @@ from pvrecorder import PvRecorder
 
 import config
 from benchmark import Benchmark
+from config import PICPATH
 
 
 def detect():
@@ -10,7 +11,7 @@ def detect():
 
         porcupine = pvporcupine.create(
             access_key=config.PICOVOICETOKEN,
-            keyword_paths=["./HeyStone/Hey-Stone_en_linux_v3_0_0.ppn"]
+            keyword_paths=[f"./WakeWordModel/{PICPATH}"]
         )
         recorder = PvRecorder(device_index=1, frame_length=porcupine.frame_length)
         bench = Benchmark()

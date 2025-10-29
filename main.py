@@ -11,7 +11,7 @@ from src.voice.speak import speak, say
 from src.voice.answers.voice_response import *
 from src.voice.answers.say_phrase import say_response
 
-model_path = "/home/sewa/Documents/Bedolaga/vosk-model-small-ru-0.22"
+model_path = "./vosk-model-small-ru-0.22"
 model = vosk.Model(model_path)
 
 def main():
